@@ -1,18 +1,18 @@
 @extends('backend.layout.master')
-@section('m_menu-open','menu-open')
-@section('m_active','active')
+@section('t_menu-open','menu-open')
+@section('t_active','active')
 @section('content')
 
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Major</h1>
+                <h1 class="m-0">Teachers</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{url('/major')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Major</li>
+                    <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Teachers</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -21,21 +21,12 @@
 <!-- /.content-header -->
 
 <div class="row">
-    <!-- /.col -->
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{url('/major/create')}}"><button class="btn btn-primary"><i class="far fa-edit"></i>Create Major</button></a>
-
-                <div class="card-tools">
-                    <ul class="pagination pagination-sm float-right">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                </div>
+                <a href="{{ url('/teacher/create') }}">
+                    <button class="btn btn-primary"><i class="far fa-edit"></i> Create Teacher</button>
+                </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -43,29 +34,37 @@
                     <thead>
                         <tr>
                             <th style="width: 5%">No.</th>
-                            <th style="width: 15%">Major Type</th>
-                            <th style="width: 40%">Description</th>
-                            <th style="width: 20%">Status</th>
-                            <th style="width: 20%">Actions</th>
+                            <th style="width: 5%">Image.</th>
+                            <th style="width: 10%">Code</th>
+                            <th style="width: 10%">Name</th>
+                            <th style="width: 10%">Date of Birth</th>
+                            <th style="width: 15%">Email</th>
+                            <th style="width: 10%">Phone</th>
+                            <th style="width: 10%">Address</th>
+                            <th style="width: 10%">Gender</th>
+                            <th style="width: 25%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($major as $key => $item)
+                        @foreach ($teachers as $key => $teacher)
                         <tr>
-                            <td>{{$key + 1 }}</td>
-                            <td>{{$item->major_type}}</td>
-                            <td>{{$item->description}}</td>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $teacher ->teacher_photo ? asset($teacher ->teacher_photo) : asset('frontend/images/teacher_image/placeholder.png') }}</td>
+                            <td>{{ $teacher->teacher_code }}</td>
+                            <td>{{ $teacher->teacher_name }}</td>
+                            <td>{{ $teacher->teacher_dob }}</td>
+                            <td>{{ $teacher->teacher_email }}</td>
+                            <td>{{ $teacher->teacher_phone }}</td>
+                            <td>{{ Str::limit($teacher->address, 20) }}</td>
+                            <td>{{ $teacher->gender->name ?? 'N/A' }}</td>
                             <td>
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="{{url('major/'.$item->id.'/edit')}}" class="btn btn-primary"><i class="far fa-edit"></i>Edit</a>
-                                <form action="{{url('major/'.$item->id)}}" method="POST" class="d-inline delete-form">
+                                <a href="{{ url('teacher/' . $teacher->id . '/edit') }}" class="btn btn-primary btn-sm">
+                                    <i class="far fa-edit"></i> Edit
+                                </a>
+                                <form action="{{ url('teacher/' . $teacher->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-danger delete-btn">
+                                    <button type="button" class="btn btn-danger delete-btn btn-sm">
                                         <i class="fas fa-trash-alt"></i> Delete
                                     </button>
                                 </form>
@@ -78,7 +77,6 @@
             <!-- /.card-body -->
         </div>
     </div>
-    <!-- /.col -->
 </div>
 @endsection
 
@@ -112,15 +110,15 @@
         });
 
         @if(session('flash_message'))
-        toastr.success("{{session('flash_message')}}");
+        toastr.success("{{ session('flash_message') }}");
         @endif
 
         @if(session('info'))
-        toastr.info("{{session('info')}}");
+        toastr.info("{{ session('info') }}");
         @endif
 
         @if(session('error'))
-        toastr.error("{{session('error')}}");
+        toastr.error("{{ session('error') }}");
         @endif
     });
 </script>

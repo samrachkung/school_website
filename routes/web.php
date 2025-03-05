@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\backend\BDashboardController;
 use App\Http\Controllers\backend\BMajorController;
+use App\Http\Controllers\backend\BCourseController;
+use App\Http\Controllers\backend\BSubjectController;
+use App\Http\Controllers\backend\BTeacherController;
 use App\Http\Controllers\frontend\aboutController;
 use App\Http\Controllers\frontend\coureseController;
 use App\Http\Controllers\frontend\eventController;
@@ -37,3 +40,6 @@ Route::controller(BDashboardController::class)->group(function(){
 });
 
 Route::resource('/major', BMajorController::class);
+Route::resource('/teacher', BTeacherController::class);
+Route::resource('/course', BCourseController::class);
+Route::resource('/subject', BSubjectController::class);

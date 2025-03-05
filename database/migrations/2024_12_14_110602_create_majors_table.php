@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('major_type', 50);
             $table->enum('status', ['active', 'inactive']);
             $table->timestamps();
+            
         });
     }
 

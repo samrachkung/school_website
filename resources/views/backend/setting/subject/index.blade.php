@@ -1,18 +1,19 @@
 @extends('backend.layout.master')
-@section('m_menu-open','menu-open')
-@section('m_active','active')
+@section('m_menu-open', 'menu-open')
+@section('s_active', 'active')
 @section('content')
+
 
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Major</h1>
+                <h1 class="m-0">Subjects</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{url('/major')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Major</li>
+                    <li class="breadcrumb-item"><a href="{{url('/subject')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Subjects</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -21,21 +22,12 @@
 <!-- /.content-header -->
 
 <div class="row">
-    <!-- /.col -->
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{url('/major/create')}}"><button class="btn btn-primary"><i class="far fa-edit"></i>Create Major</button></a>
-
-                <div class="card-tools">
-                    <ul class="pagination pagination-sm float-right">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                </div>
+                <a href="{{ url('/subject/create') }}">
+                    <button class="btn btn-primary"><i class="far fa-edit"></i> Create Subject</button>
+                </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -43,26 +35,22 @@
                     <thead>
                         <tr>
                             <th style="width: 5%">No.</th>
-                            <th style="width: 15%">Major Type</th>
-                            <th style="width: 40%">Description</th>
-                            <th style="width: 20%">Status</th>
+                            <th style="width: 20%">Subject Name</th>
+                            <th style="width: 20%">Course</th>
                             <th style="width: 20%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($major as $key => $item)
+                        @foreach ($subjects as $key => $subject)
                         <tr>
-                            <td>{{$key + 1 }}</td>
-                            <td>{{$item->major_type}}</td>
-                            <td>{{$item->description}}</td>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $subject->subject_name }}</td>
+                            <td>{{ $subject->course->course_name ?? 'N/A' }}</td>
                             <td>
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="{{url('major/'.$item->id.'/edit')}}" class="btn btn-primary"><i class="far fa-edit"></i>Edit</a>
-                                <form action="{{url('major/'.$item->id)}}" method="POST" class="d-inline delete-form">
+                                <a href="{{ url('subject/' . $subject->id . '/edit') }}" class="btn btn-primary">
+                                    <i class="far fa-edit"></i> Edit
+                                </a>
+                                <form action="{{ url('subject/' . $subject->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger delete-btn">
@@ -78,7 +66,6 @@
             <!-- /.card-body -->
         </div>
     </div>
-    <!-- /.col -->
 </div>
 @endsection
 
@@ -112,15 +99,15 @@
         });
 
         @if(session('flash_message'))
-        toastr.success("{{session('flash_message')}}");
+        toastr.success("{{ session('flash_message') }}");
         @endif
 
         @if(session('info'))
-        toastr.info("{{session('info')}}");
+        toastr.info("{{ session('info') }}");
         @endif
 
         @if(session('error'))
-        toastr.error("{{session('error')}}");
+        toastr.error("{{ session('error') }}");
         @endif
     });
 </script>
